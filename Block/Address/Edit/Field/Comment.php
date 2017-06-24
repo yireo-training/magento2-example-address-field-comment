@@ -23,7 +23,7 @@ class Comment extends Template
     /**
      * @return string
      */
-    public function getCommentValue()
+    public function getCommentValue() : string
     {
         /** @var \Magento\Customer\Model\Data\Address $address */
         $address = $this->getAddress();
@@ -41,7 +41,7 @@ class Comment extends Template
      *
      * @return \Magento\Customer\Api\Data\AddressInterface
      */
-    public function getAddress()
+    public function getAddress() : \Magento\Customer\Api\Data\AddressInterface
     {
         return $this->_address;
     }
@@ -51,7 +51,7 @@ class Comment extends Template
      *
      * @param \Magento\Customer\Api\Data\AddressInterface $address
      */
-    public function setAddress($address)
+    public function setAddress(\Magento\Customer\Api\Data\AddressInterface $address)
     {
         $this->_address = $address;
     }

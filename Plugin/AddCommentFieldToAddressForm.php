@@ -2,6 +2,7 @@
 namespace Yireo\ExampleAddressFieldComment\Plugin;
 
 use Magento\Customer\Block\Address\Edit as Subject;
+use Magento\Framework\View\Element\Template;
 use Yireo\ExampleAddressFieldComment\Block\Address\Edit\Field\Comment as CommentBlock;
 
 /**
@@ -17,7 +18,7 @@ class AddCommentFieldToAddressForm
      *
      * @return string
      */
-    public function afterToHtml(Subject $subject, $html)
+    public function afterToHtml(Subject $subject, string $html) : string
     {
         $commentBlock = $this->getChildBlock(CommentBlock::class, $subject);
         $commentBlock->setAddress($subject->getAddress());
@@ -32,7 +33,7 @@ class AddCommentFieldToAddressForm
      *
      * @return string
      */
-    private function appendBlockBeforeFieldsetEnd($html, $childHtml)
+    private function appendBlockBeforeFieldsetEnd(string $html, string $childHtml) : string
     {
         $pregMatch = '/\<\/fieldset\>/';
         $pregReplace = $childHtml . '\0';
@@ -42,12 +43,14 @@ class AddCommentFieldToAddressForm
     }
 
     /**
-     * @param $parentBlock
+     * @param string $blockClass
+     * @param Template $parentBlock
      *
      * @return mixed
      */
-    private function getChildBlock($blockClass, $parentBlock)
+    private function getChildBlock(string $blockClass, Template $parentBlock)
     {
-        return $parentBlock->getLayout()->createBlock($blockClass, basename($blockClass));
+        $blockId = str_replace('\\', '_', $blockClass);
+        return $parentBlock->getLayout()->createBlock($blockClass, $blockId);
     }
 }
