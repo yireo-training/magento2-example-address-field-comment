@@ -2,6 +2,7 @@
 
 namespace Yireo\ExampleAddressFieldComment\Setup;
 
+use Magento\Framework\Exception\AlreadyExistsException;
 use Magento\Framework\Setup\InstallDataInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\ModuleDataSetupInterface;
@@ -79,7 +80,12 @@ class InstallData implements InstallDataInterface
             ['adminhtml_customer_address', 'customer_address_edit', 'customer_register_address']
         );
 
-        $commentAttribute->save();
+        try {
+            $commentAttribute->save();
+        } catch(AlreadyExistsException $exception) {
+            return true;
+        }
+
         return true;
     }
 
